@@ -203,3 +203,11 @@ class ActivateIFTTT(APIView):
         newEvent.save()
         print 'New Event Logged'
         return Response({'success': True}, status=status.HTTP_200_OK)
+class Dog(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (parsers.JSONParser,parsers.FormParser)
+    renderer_classes = (renderers.JSONRenderer, )
+
+    def post(self, request):
+        print 'REQUEST DATA'
+        print str(request.data)
