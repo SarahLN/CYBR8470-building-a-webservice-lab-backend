@@ -29,3 +29,25 @@ class ApiKey(models.Model):
 
 class ApiKeyAdmin(admin.ModelAdmin):
     list_display = ('owner','key')
+
+class Dog(models.Model):
+    MALE = 'M'
+    FEMALE = 'F'
+    GENDER_CHOICES = (
+        (MALE, 'Male'),
+        (FEMALE, 'Female'),
+    )
+
+    name = models.CharField(max_length=1000, blank=False)
+    age = models.IntegerField(blank=False)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default=MALE)
+    color = models.CharField(max_length=1000, blank=False)
+    breed = models.CharField(max_length=1000, blank=False)
+    favoriteFood = models.CharField(max_length=1000, blank=True)
+    favoriteToy = models.CharField(max_length=1000, blank=True)
+
+    def __str__(self):
+        return str(self.name)
+
+class DogAdmin(admin.ModelAdmin):
+    list_display = ('name','breed','age')
