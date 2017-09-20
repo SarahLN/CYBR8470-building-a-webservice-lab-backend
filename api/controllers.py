@@ -212,14 +212,19 @@ class DogDetail(APIView):
         print 'REQUEST DATA'
         print str(request.data)
 
+        # TODO: Fill out this function
+
     def put(self, request):
         print 'REQUEST DATA'
         print str(request.data)
+
+        # TODO: Fill out this function
 
     def delete(self, request):
         print 'REQUEST DATA'
         print str(request.data)
 
+        # TODO: Fill out this function
 
 class DogList(APIView):
     permission_classes = (AllowAny,)
@@ -239,8 +244,47 @@ class DogList(APIView):
         print 'REQUEST DATA'
         print str(request.data)
 
-        serializer = DogSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # TODO: Fill out this function
+
+class BreedDetail (APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (parsers.JSONParser,parsers.FormParser)
+    renderer_classes = (renderers.JSONRenderer, )
+
+    def get(self, request, format=None):
+        print 'REQUEST DATA'
+        print str(request.data)
+
+        # TODO: Fill out this function
+
+    def put(self, request):
+        print 'REQUEST DATA'
+        print str(request.data)
+
+        # TODO: Fill out this function
+
+    def delete(self, request):
+        print 'REQUEST DATA'
+        print str(request.data)
+
+        # TODO: Fill out this function
+
+class BreedDetail (APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (parsers.JSONParser,parsers.FormParser)
+    renderer_classes = (renderers.JSONRenderer, )
+
+    def get(self, request, format=None):
+        print 'REQUEST DATA'
+        print str(request.data)
+
+        breeds = Breed.objects.all()
+        json_data = serializers.serialize('json', breeds)
+        content = {'breeds': json_data}
+        return HttpResponse(json_data, content_type='json')
+
+    def post(self, request, format=None):
+        print 'REQUEST DATA'
+        print str(request.data)
+
+        # TODO: Fill out this function
