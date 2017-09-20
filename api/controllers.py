@@ -203,11 +203,43 @@ class ActivateIFTTT(APIView):
         newEvent.save()
         print 'New Event Logged'
         return Response({'success': True}, status=status.HTTP_200_OK)
-class Dog(APIView):
+class DogDetail(APIView):
     permission_classes = (AllowAny,)
     parser_classes = (parsers.JSONParser,parsers.FormParser)
     renderer_classes = (renderers.JSONRenderer, )
 
-    def post(self, request):
+    def get(self, request, format=None):
         print 'REQUEST DATA'
         print str(request.data)
+
+    def put(self, request):
+        print 'REQUEST DATA'
+        print str(request.data)
+
+    def delete(self, request):
+        print 'REQUEST DATA'
+        print str(request.data)
+
+
+class DogList(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (parsers.JSONParser,parsers.FormParser)
+    renderer_classes = (renderers.JSONRenderer, )
+
+    def get(self, request, format=None):
+        print 'REQUEST DATA'
+        print str(request.data)
+
+        dogs = Dog.objects.all()
+        serializer = DogSerializer(dogs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        print 'REQUEST DATA'
+        print str(request.data)
+
+        serializer = DogSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
