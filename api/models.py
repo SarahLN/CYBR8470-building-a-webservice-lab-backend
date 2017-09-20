@@ -34,8 +34,7 @@ class Dog(models.Model):
 
     name = models.CharField(max_length=1000)
     age = models.IntegerField()
-    # TODO: Make Breed foreign key
-    breed = models.CharField(max_length=1000)
+    breed = models.ForeignKey(Breed, on_delete=models.CASCADE)
     gender = models.CharField(max_length=1000)
     color = models.CharField(max_length=1000)
     favoriteFood = models.CharField(max_length=1000)
