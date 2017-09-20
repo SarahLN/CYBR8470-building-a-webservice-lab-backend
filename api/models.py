@@ -47,7 +47,7 @@ class Breed(models.Model):
 
     name = models.CharField(max_length=1000)
     size = models.CharField(max_length=10, choices=SIZE_OPTIONS)
-    friedliness = models.IntegerField(choices=NUM_OPTIONS)
+    friendliness = models.IntegerField(choices=NUM_OPTIONS)
     trainability = models.IntegerField(choices=NUM_OPTIONS)
     sheddingamount = models.IntegerField(choices=NUM_OPTIONS)
     exerciseneeds = models.IntegerField(choices=NUM_OPTIONS)

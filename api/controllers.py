@@ -288,3 +288,30 @@ class BreedList (APIView):
         print str(request.data)
 
         # TODO: Fill out this function
+        name = request.POST.get('name')
+        size = request.POST.get('size')
+        friendliness = int(request.POST.get('friendliness'))
+        trainability = int(request.POST.get('trainability'))
+        sheddingamount = int(request.POST.get('sheddingamount'))
+        exerciseneeds = int(request.POST.get('exerciseneeds'))
+
+        print "Creating new Breed"
+
+        newBreed = Breed(
+            name=name,
+            size=size,
+            friendliness=friendliness,
+            trainability=trainability,
+            sheddingamount=sheddingamount,
+            exerciseneeds=exerciseneeds
+        )
+
+        try:
+            newBreed.clean_fields()
+        except ValidationError as e:
+            print e
+            return Response({'success':False, 'error':e}, status=status.HTTP_400_BAD_REQUEST)
+
+        newBreed.save()
+        print 'New Breed added: ' + name
+        return Response({'success': True}, status=status.HTTP_200_OK)

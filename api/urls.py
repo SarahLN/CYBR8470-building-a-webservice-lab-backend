@@ -15,6 +15,6 @@ urlpatterns = [
     url(r'^events', csrf_exempt(controllers.Events.as_view())),
     url(r'^activateifttt', csrf_exempt(controllers.ActivateIFTTT.as_view())),
     url(r'^dogs', csrf_exempt(controllers.DogList.as_view())),
-    url(r'^breeds', csrf_exempt(controllers.BreedList.as_view()))
+    url(r'^breeds', csrf_exempt(controllers.BreedList.as_view())),
     url(r'^', include(router.urls)),
 ]
