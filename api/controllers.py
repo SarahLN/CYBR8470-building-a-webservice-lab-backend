@@ -283,17 +283,20 @@ class BreedList (APIView):
         content = {'breeds': json_data}
         return HttpResponse(json_data, content_type='json')
 
-    def post(self, request, format=None):
+    def post(self, request, *args, **kwargs):
         print 'REQUEST DATA'
         print str(request.data)
 
         # TODO: Fill out this function
-        name = request.POST.get('name')
-        size = request.POST.get('size')
-        friendliness = int(request.POST.get('friendliness'))
-        trainability = int(request.POST.get('trainability'))
-        sheddingamount = int(request.POST.get('sheddingamount'))
-        exerciseneeds = int(request.POST.get('exerciseneeds'))
+        name = request.data.get('name')
+        print name
+        size = request.data.get('size')
+        print size
+        print request.data.get('friendliness')
+        friendliness = int(request.data.get('friendliness'))
+        trainability = int(request.data.get('trainability'))
+        sheddingamount = int(request.data.get('sheddingamount'))
+        exerciseneeds = int(request.data.get('exerciseneeds'))
 
         print "Creating new Breed"
 
