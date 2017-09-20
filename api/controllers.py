@@ -231,8 +231,9 @@ class DogList(APIView):
         print str(request.data)
 
         dogs = Dog.objects.all()
-        serializer = DogSerializer(dogs, many=True)
-        return Response(serializer.data)
+        json_data = serializers.serialize('json', dogs)
+        content = {'dogs': json_data}
+        return HttpResponse(json_data, content_type='json')
 
     def post(self, request, format=None):
         print 'REQUEST DATA'
