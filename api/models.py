@@ -32,27 +32,36 @@ class ApiKeyAdmin(admin.ModelAdmin):
 
 class Dog(models.Model):
 
-    name = models.CharField(max_length=1000, blank=False)
-    age = models.IntegerField(blank=False)
+    name = models.CharField(max_length=1000)
+    age = models.IntegerField()
     # TODO: Make Breed foreign key
-    breed = models.CharField(max_length=1000, blank=False)
-    gender = models.CharField(max_length=1000, blank=False)
-    color = models.CharField(max_length=1000, blank=False)
-    favoriteFood = models.CharField(max_length=1000, blank=False)
-    favoriteToy = models.CharField(max_length=1000, blank=False)
+    breed = models.CharField(max_length=1000)
+    gender = models.CharField(max_length=1000)
+    color = models.CharField(max_length=1000)
+    favoriteFood = models.CharField(max_length=1000)
+    favoriteToy = models.CharField(max_length=1000)
 
     def __str__(self):
         return str(self.name)
 
 class Breed(models.Model):
-    name = models.CharField(max_length=1000, blank=False)
-    # TODO: require value to be one of several choices
-    size = models.CharField(max_length=100, blank=False)
-    # TODO: require value 1-5
-    friedliness = models.IntegerField(blank=False)
-    # TODO: require value 1-5
-    trainability = models.IntegerField(blank=False)
-    # TODO: require value 1-5
-    sheddingamount = models.IntegerField(blank=False)
-    # TODO: require value 1-5
-    exerciseneeds = models.IntegerField(blank=False)
+    SIZE_OPTIONS = (
+        ('tiny', 'Tiny'),
+        ('small', 'Small'),
+        ('medium', 'Medium'),
+        ('large', 'Large'),
+    )
+    NUM_OPTIONS = (
+        (1, 1),
+        (2,2),
+        (3,3),
+        (4,4),
+        (5,5),
+    )
+
+    name = models.CharField(max_length=1000)
+    size = models.CharField(max_length=10, choices=SIZE_OPTIONS)
+    friedliness = models.IntegerField(choices=NUM_OPTIONS)
+    trainability = models.IntegerField(choices=NUM_OPTIONS)
+    sheddingamount = models.IntegerField(choices=NUM_OPTIONS)
+    exerciseneeds = models.IntegerField(choices=NUM_OPTIONS)
