@@ -31,23 +31,28 @@ class ApiKeyAdmin(admin.ModelAdmin):
     list_display = ('owner','key')
 
 class Dog(models.Model):
-    MALE = 'M'
-    FEMALE = 'F'
-    GENDER_CHOICES = (
-        (MALE, 'Male'),
-        (FEMALE, 'Female'),
-    )
 
     name = models.CharField(max_length=1000, blank=False)
     age = models.IntegerField(blank=False)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default=MALE)
-    color = models.CharField(max_length=1000, blank=False)
+    # TODO: Make Breed foreign key
     breed = models.CharField(max_length=1000, blank=False)
-    favoriteFood = models.CharField(max_length=1000, blank=True)
-    favoriteToy = models.CharField(max_length=1000, blank=True)
+    gender = models.CharField(max_length=1000, blank=False)
+    color = models.CharField(max_length=1000, blank=False)
+    favoriteFood = models.CharField(max_length=1000, blank=False)
+    favoriteToy = models.CharField(max_length=1000, blank=False)
 
     def __str__(self):
         return str(self.name)
 
-class DogAdmin(admin.ModelAdmin):
-    list_display = ('name','breed','age')
+class Breed(models.Model):
+    name = models.CharField(max_length=1000, blank=False)
+    # TODO: require value to be one of several choices
+    size = models.CharField(max_length=100, blank=False)
+    # TODO: require value 1-5
+    friedliness = models.IntegerField(blank=False)
+    # TODO: require value 1-5
+    trainability = models.IntegerField(blank=False)
+    # TODO: require value 1-5
+    sheddingamount = models.IntegerField(blank=False)
+    # TODO: require value 1-5
+    exerciseneeds = models.IntegerField(blank=False)
