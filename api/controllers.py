@@ -269,7 +269,7 @@ class BreedDetail (APIView):
 
         # TODO: Fill out this function
 
-class BreedDetail (APIView):
+class BreedList (APIView):
     permission_classes = (AllowAny,)
     parser_classes = (parsers.JSONParser,parsers.FormParser)
     renderer_classes = (renderers.JSONRenderer, )
