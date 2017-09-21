@@ -26,6 +26,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.renderers import JSONRenderer
 
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.permissions import *
@@ -38,6 +39,7 @@ from rest_framework.authentication import *
 from api.pagination import *
 import json, datetime, pytz
 from django.core import serializers
+from django.core.exceptions import ObjectDoesNotExist
 import requests
 
 
@@ -280,11 +282,17 @@ class BreedDetail (APIView):
     parser_classes = (parsers.JSONParser,parsers.FormParser)
     renderer_classes = (renderers.JSONRenderer, )
 
-    def get(self, request, format=None):
+    def get(self, request, id=None, format=None):
         print 'REQUEST DATA'
         print str(request.data)
 
-        # TODO: Fill out this function
+        try:
+            breed = Breed.objects.get(pk=id)
+        except ObjectDoesNotExist as e:
+            return Response({'success':False, 'error':e}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = BreedSerializer(breed)
+        json_data = JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data, content_type='json')
 
     def put(self, request):
         print 'REQUEST DATA'
@@ -308,6 +316,7 @@ class BreedList (APIView):
         print str(request.data)
 
         breeds = Breed.objects.all()
+        print type(breeds)
         json_data = serializers.serialize('json', breeds)
         content = {'breeds': json_data}
         return HttpResponse(json_data, content_type='json')

@@ -8,6 +8,8 @@ from django.contrib.auth.models import User, Group
 from django.contrib import admin
 import base64
 
+from rest_framework import serializers
+
 class Event(models.Model):
     eventtype = models.CharField(max_length=1000, blank=False)
     timestamp = models.DateTimeField()
@@ -55,6 +57,14 @@ class Breed(models.Model):
     def __str__(self):
         return str(self.name)
 
+class BreedSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=1000)
+    size = serializers.CharField(max_length=10)
+    friendliness = serializers.IntegerField()
+    trainability = serializers.IntegerField()
+    sheddingamount = serializers.IntegerField()
+    exerciseneeds = serializers.IntegerField()
+
 class Dog(models.Model):
 
     name = models.CharField(max_length=1000)
@@ -67,3 +77,12 @@ class Dog(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+class DogSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=1000)
+    age = serializers.IntegerField()
+    breed = BreedSerializer()
+    gender = serializers.CharField(max_length=1000)
+    color = serializers.CharField(max_length=1000)
+    favoritefood = serializers.CharField(max_length=1000)
+    favoritetoy = serializers.CharField(max_length=1000)
