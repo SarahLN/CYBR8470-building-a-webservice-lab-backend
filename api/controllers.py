@@ -298,17 +298,23 @@ class BreedDetail (APIView):
         print 'REQUEST DATA'
         print str(request.data)
 
-        # TODO: Fill out this function
         try:
             breed = Breed.objects.get(pk=id)
         except ObjectDoesNotExist as e:
             return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        breed.name = request.data.get('name')
-        breed.size = request.data.get('size')
-        breed.friendliness = int(request.data.get('friendliness'))
-        breed.trainability = int(request.data.get('trainability'))
-        breed.sheddingamount = int(request.data.get('sheddingamount'))
-        breed.exerciseneeds = int(request.data.get('exerciseneeds'))
+        
+        if request.data.get('name') != None:
+            breed.name = request.data.get('name')
+        if request.data.get('size') != None:
+            breed.size = request.data.get('size')
+        if request.data.get('friendliness') != None:
+            breed.friendliness = int(request.data.get('friendliness'))
+        if request.data.get('trainability') != None:
+            breed.trainability = int(request.data.get('trainability'))
+        if request.data.get('sheddingamount') != None:
+            breed.sheddingamount = int(request.data.get('sheddingamount'))
+        if request.data.get('exerciseneeds') != None:
+            breed.exerciseneeds = int(request.data.get('exerciseneeds'))
 
         try:
             breed.clean_fields()
