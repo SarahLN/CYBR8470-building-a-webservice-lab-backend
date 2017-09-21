@@ -289,7 +289,7 @@ class BreedDetail (APIView):
         try:
             breed = Breed.objects.get(pk=id)
         except ObjectDoesNotExist as e:
-            return Response({'success':False, 'error':e}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
         serializer = BreedSerializer(breed)
         json_data = JSONRenderer().render(serializer.data)
         return HttpResponse(json_data, content_type='json')
