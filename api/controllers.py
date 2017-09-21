@@ -300,11 +300,16 @@ class BreedDetail (APIView):
 
         # TODO: Fill out this function
 
-    def delete(self, request):
+    def delete(self, request, id=None):
         print 'REQUEST DATA'
         print str(request.data)
 
-        # TODO: Fill out this function
+        try:
+            breed = Breed.objects.get(pk=id)
+        except ObjectDoesNotExist as e:
+            return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        Breed.objects.filter(pk=id).delete()
+        return Response({'success':True}, status=status.HTTP_200_OK)
 
 class BreedList (APIView):
     permission_classes = (AllowAny,)
