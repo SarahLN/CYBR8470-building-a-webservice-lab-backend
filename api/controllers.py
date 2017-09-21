@@ -294,11 +294,30 @@ class BreedDetail (APIView):
         json_data = JSONRenderer().render(serializer.data)
         return HttpResponse(json_data, content_type='json')
 
-    def put(self, request):
+    def put(self, request, id=None):
         print 'REQUEST DATA'
         print str(request.data)
 
         # TODO: Fill out this function
+        try:
+            breed = Breed.objects.get(pk=id)
+        except ObjectDoesNotExist as e:
+            return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        breed.name = request.data.get('name')
+        breed.size = request.data.get('size')
+        breed.friendliness = int(request.data.get('friendliness'))
+        breed.trainability = int(request.data.get('trainability'))
+        breed.sheddingamount = int(request.data.get('sheddingamount'))
+        breed.exerciseneeds = int(request.data.get('exerciseneeds'))
+
+        try:
+            breed.clean_fields()
+        except ValidationError as e:
+            print e
+            return Response({'success':False, 'error':e}, status=status.HTTP_400_BAD_REQUEST)
+        breed.save()
+        print 'Breed updated: ' + breed.name
+        return Response({'success': True}, status=status.HTTP_200_OK)
 
     def delete(self, request, id=None):
         print 'REQUEST DATA'
