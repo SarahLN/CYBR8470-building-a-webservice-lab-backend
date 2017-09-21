@@ -62,8 +62,8 @@ class Dog(models.Model):
     breed = models.ForeignKey(Breed, on_delete=models.CASCADE)
     gender = models.CharField(max_length=1000)
     color = models.CharField(max_length=1000)
-    favoriteFood = models.CharField(max_length=1000)
-    favoriteToy = models.CharField(max_length=1000)
+    favoritefood = models.CharField(max_length=1000)
+    favoritetoy = models.CharField(max_length=1000)
 
     def __str__(self):
         return str(self.name)

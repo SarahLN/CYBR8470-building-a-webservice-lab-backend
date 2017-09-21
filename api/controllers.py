@@ -240,11 +240,40 @@ class DogList(APIView):
         content = {'dogs': json_data}
         return HttpResponse(json_data, content_type='json')
 
-    def post(self, request, format=None):
+    def post(self, request, *args, **kwargs):
         print 'REQUEST DATA'
         print str(request.data)
 
-        # TODO: Fill out this function
+        name = request.data.get('name')
+        age = int(request.data.get('age'))
+        breedname = request.data.get('breed')
+        breed = Breed.objects.get(name=breedname)
+        gender = request.data.get('gender')
+        color = request.data.get('color')
+        favoritefood = request.data.get('favoritefood')
+        favoritetoy = request.data.get('favoritetoy')
+
+        print "Creating new Dog"
+
+        newDog = Dog(
+            name=name,
+            age=age,
+            breed=breed,
+            gender=gender,
+            color=color,
+            favoritefood=favoritefood,
+            favoritetoy=favoritetoy
+        )
+
+        try:
+            newDog.clean_fields()
+        except ValidationError as e:
+            print e
+            return Response({'success':False, 'error':e}, status=status.HTTP_400_BAD_REQUEST)
+
+        newDog.save()
+        print 'New Dog added: ' + name
+        return Response({'success': True}, status=status.HTTP_200_OK)
 
 class BreedDetail (APIView):
     permission_classes = (AllowAny,)
@@ -287,12 +316,8 @@ class BreedList (APIView):
         print 'REQUEST DATA'
         print str(request.data)
 
-        # TODO: Fill out this function
         name = request.data.get('name')
-        print name
         size = request.data.get('size')
-        print size
-        print request.data.get('friendliness')
         friendliness = int(request.data.get('friendliness'))
         trainability = int(request.data.get('trainability'))
         sheddingamount = int(request.data.get('sheddingamount'))
