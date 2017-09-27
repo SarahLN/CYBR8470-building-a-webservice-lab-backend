@@ -210,11 +210,17 @@ class DogDetail(APIView):
     parser_classes = (parsers.JSONParser,parsers.FormParser)
     renderer_classes = (renderers.JSONRenderer, )
 
-    def get(self, request, format=None):
+    def get(self, request, id=None, format=None):
         print 'REQUEST DATA'
         print str(request.data)
 
-        # TODO: Fill out this function
+        try:
+            dog = Dog.objects.get(pk=id)
+        except ObjectDoesNotExist as e:
+            return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = DogSerializer(dog)
+        json_data = JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data, content_type='json')
 
     def put(self, request):
         print 'REQUEST DATA'
@@ -302,7 +308,7 @@ class BreedDetail (APIView):
             breed = Breed.objects.get(pk=id)
         except ObjectDoesNotExist as e:
             return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         if request.data.get('name') != None:
             breed.name = request.data.get('name')
         if request.data.get('size') != None:
