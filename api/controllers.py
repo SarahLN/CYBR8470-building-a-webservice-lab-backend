@@ -205,6 +205,7 @@ class ActivateIFTTT(APIView):
         newEvent.save()
         print 'New Event Logged'
         return Response({'success': True}, status=status.HTTP_200_OK)
+
 class DogDetail(APIView):
     permission_classes = (AllowAny,)
     parser_classes = (parsers.JSONParser,parsers.FormParser)
@@ -222,17 +223,46 @@ class DogDetail(APIView):
         json_data = JSONRenderer().render(serializer.data)
         return HttpResponse(json_data, content_type='json')
 
-    def put(self, request):
+    def put(self, request, id):
         print 'REQUEST DATA'
         print str(request.data)
 
-        # TODO: Fill out this function
+        try:
+            dog = Dog.objects.get(pk=id)
+        except ObjectDoesNotExist as e:
+            return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request):
+        if request.data.get('name') != None:
+            dog.name = request.data.get('name')
+        if request.data.get('age') != None:
+            dog.age = int(request.data.get('age'))
+        if request.data.get('breed') != None:
+            breedname = request.data.get('breed')
+            dog.breed = Breed.objects.get(name=breedname)
+        if request.data.get('gender') != None:
+            dog.gender = request.data.get('gender')
+        if request.data.get('color') != None:
+            dog.color = request.data.get('color')
+        if request.data.get('favoritefood') != None:
+            dog.favoritefood = request.data.get('favoritefood')
+        if request.data.get('favoritetoy') != None:
+            dog.favoritetoy = request.data.get('favoritetoy')
+
+        try:
+            dog.clean_fields()
+        except ValidationError as e:
+            print e
+            return Response({'success':False, 'error':e}, status=status.HTTP_400_BAD_REQUEST)
+        dog.save()
+        print 'Dog updated: ' + dog.name
+        return Response({'success': True}, status=status.HTTP_200_OK)
+
+    def delete(self, request, id):
         print 'REQUEST DATA'
         print str(request.data)
 
-        # TODO: Fill out this function
+        Dog.objects.filter(pk=id).delete()
+        return Response({'success':True}, status=status.HTTP_200_OK)
 
 class DogList(APIView):
     permission_classes = (AllowAny,)
