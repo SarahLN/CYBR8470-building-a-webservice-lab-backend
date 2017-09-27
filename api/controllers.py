@@ -335,10 +335,6 @@ class BreedDetail (APIView):
         print 'REQUEST DATA'
         print str(request.data)
 
-        try:
-            breed = Breed.objects.get(pk=id)
-        except ObjectDoesNotExist as e:
-            return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
         Breed.objects.filter(pk=id).delete()
         return Response({'success':True}, status=status.HTTP_200_OK)
 
