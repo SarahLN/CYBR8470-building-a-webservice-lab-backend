@@ -40,7 +40,8 @@ from api.pagination import *
 import json, datetime, pytz
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
-import requests
+#import bleach
+
 
 
 def home(request):
